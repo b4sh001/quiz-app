@@ -4,6 +4,7 @@ import { Main } from "./Main";
 import Loader from "./Loader";
 import Error from "./Error";
 import StartScreen from "./StartScreen";
+import Questions from "./Questions";
 
 export default function App() {
   const initialState = {
@@ -23,6 +24,11 @@ export default function App() {
         return {
           ...state,
           status: "error",
+        };
+      case "start":
+        return {
+          ...state,
+          status: "active",
         };
       default:
         throw new Error("Action unknown");
@@ -45,7 +51,10 @@ export default function App() {
       <Main>
         {status === "loading" && <Loader />}
         {status === "error" && <Error />}
-        {status === "ready" && <StartScreen numQuestions={numQuestions} />}
+        {status === "ready" && (
+          <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
+        )}
+        {status === "active" && <Questions />}
       </Main>
     </div>
   );
